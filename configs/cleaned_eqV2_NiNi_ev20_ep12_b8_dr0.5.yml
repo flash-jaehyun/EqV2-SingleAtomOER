@@ -1,0 +1,120 @@
+amp: false
+checkpoint: /notebooks/fairchem_checkpoints/eq2_121M_e4_f100_oc22_s2ef.pt
+dataset:
+  test:
+    a2g_args:
+      r_energy: false
+      r_forces: false
+    format: ase_db
+    src: /notebooks/database/NiNi_DFT/test/test.db
+  train:
+    a2g_args:
+      r_energy: true
+      r_forces: true
+    format: ase_db
+    src: /notebooks/database/NiNi_DFT/train/train.db
+  val:
+    a2g_args:
+      r_energy: true
+      r_forces: true
+    format: ase_db
+    src: /notebooks/database/NiNi_DFT/val/val.db
+evaluation_metrics:
+  metrics:
+    energy:
+    - mae
+    forces:
+    - forcesx_mae
+    - forcesy_mae
+    - forcesz_mae
+    - mae
+    - cosine_similarity
+    - magnitude_error
+    misc:
+    - energy_forces_within_threshold
+  primary_metric: energy_mae
+gpus: 1
+logger: tensorboard
+loss_functions:
+- energy:
+    coefficient: 4
+    fn: mae
+- forces:
+    coefficient: 100
+    fn: l2mae
+model:
+  alpha_drop: 0.5
+  attn_activation: silu
+  attn_alpha_channels: 64
+  attn_hidden_channels: 64
+  attn_value_channels: 16
+  distance_function: gaussian
+  drop_path_rate: 0.1
+  edge_channels: 128
+  enforce_max_neighbors_strictly: false
+  ffn_activation: silu
+  ffn_hidden_channels: 128
+  grid_resolution: 18
+  lmax_list:
+  - 6
+  load_energy_lin_ref: true
+  max_neighbors: 20
+  max_num_elements: 90
+  max_radius: 12.0
+  mmax_list:
+  - 2
+  name: equiformer_v2
+  norm_type: layer_norm_sh
+  num_distance_basis: 512
+  num_heads: 8
+  num_layers: 18
+  num_sphere_samples: 128
+  otf_graph: true
+  proj_drop: 0.0
+  regress_forces: true
+  share_atom_edge_embedding: false
+  sphere_channels: 128
+  use_atom_edge_embedding: true
+  use_attn_renorm: true
+  use_energy_lin_ref: true
+  use_gate_act: false
+  use_grid_mlp: true
+  use_m_share_rad: false
+  use_pbc: true
+  use_s2_act_attn: false
+  use_sep_s2_act: true
+  weight_init: uniform
+noddp: false
+optim:
+  batch_size: 8
+  clip_grad_norm: 50
+  ema_decay: 0.999
+  energy_coefficient: 4
+  eval_batch_size: 4
+  eval_every: 20
+  force_coefficient: 100
+  loss_energy: mae
+  lr_initial: 0.0002
+  max_epochs: 12
+  num_workers: 8
+  optimizer: AdamW
+  optimizer_params:
+    weight_decay: 0.001
+  scheduler: LambdaLR
+  scheduler_params:
+    epochs: 385566
+    lambda_type: cosine
+    lr: 0.0002
+    lr_min_factor: 0.01
+    warmup_epochs: 6426
+    warmup_factor: 0.2
+outputs:
+  energy:
+    level: system
+  forces:
+    eval_on_free_atoms: true
+    level: atom
+    train_on_free_atoms: true
+primary_metric: energy_mae
+seed: 42
+trainer: equiformerv2_forces
