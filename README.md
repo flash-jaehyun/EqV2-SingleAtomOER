@@ -18,3 +18,6 @@ The current version provides configuration files, datasets, and pretrained check
 ## License
 Code is released under the MIT License.  
 Dataset is available under the CC BY 4.0 License.
+
+MIT License
+Copyright (c) 2025 Jaehyun Kim
