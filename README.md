@@ -17,18 +17,6 @@ The fine-tuned model enables accurate prediction of adsorption energies and inte
 
 ## 📂 Directory Structure
 
-**Fine-tuning of the pretrained EquiformerV2 graph neural network for adsorption-energy and force prediction on single-atom-incorporated oxyhydroxide catalysts.**
-
----
-
-## 🧩 Overview
-This repository provides the source code, processed dataset, and pretrained checkpoints used for the fine-tuning and evaluation of **EquiformerV2**, adapted for **M₁–NiFeOOH-type single-atom-incorporated oxyhydroxide catalysts**.  
-The model enables accurate prediction of adsorption energies and interatomic forces for complex transition-metal oxyhydroxide systems.
-
----
-
-## 📂 Directory Structure
-
 - `configs/` – Training and evaluation configurations  
 - `checkpoints/` – Pretrained and fine-tuned model weights  
 - `data/` – Processed dataset and split information  
